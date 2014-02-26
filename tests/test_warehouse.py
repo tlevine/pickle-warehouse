@@ -27,6 +27,12 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.dump('dada artist', fp)
         self.assertEqual(self.w['profession'], 'dada artist')
 
+    def test_get(self):
+        with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
+            observed = pickle.dump('dada artist', fp)
+        self.assertEqual(self.w['profession'], 'dada artist')
+        self.assertEqual(self.w.get('hobby','business intelligence'), 'business intelligence')
+
     def test_delitem(self):
         dirname = os.path.join(self.tmp, 'foo')
         filename= os.path.join(dirname, 'bar')
