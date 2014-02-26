@@ -4,10 +4,8 @@ import nose.tools as n
 
 from pickle_warehouse.identifiers import parse, parse_partial
 
-cachedir = '/tmp/_'
-
 def check_parse(index:str, path:list):
-    observed = parse(cachedir, index)
+    observed = parse(index)
     n.assert_list_equal(observed, path)
 
 def test_parse():
@@ -30,10 +28,10 @@ def test_parse_datetime():
     n.assert_list_equal(o, e)
 
 testcases = [
-    (('a','b','c'), [cachedir, 'a', 'b', 'c']),
-    (['foo','bar','baz'], [cachedir, 'foo', 'bar', 'baz']),
-    ('def', [cachedir, 'def']),
-    ('left/middle/right', [cachedir, 'left', 'middle', 'right']),
-    ('http://thomaslevine.com/!?foo=bar', [cachedir, 'http', 'thomaslevine.com', '!?foo=bar']),
-    (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], [cachedir, 'http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
+    (('a','b','c'), ['a', 'b', 'c']),
+    (['foo','bar','baz'], ['foo', 'bar', 'baz']),
+    ('def', ['def']),
+    ('left/middle/right', ['left', 'middle', 'right']),
+    ('http://thomaslevine.com/!?foo=bar', ['http', 'thomaslevine.com', '!?foo=bar']),
+    (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], ['http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
 ]

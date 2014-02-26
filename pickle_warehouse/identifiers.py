@@ -8,15 +8,15 @@ try:
 except NameError:
     basestring = str
 
-def parse(cachedir, index):
+def parse(index):
     for theclass in [basestring, datetime.date, datetime.datetime]:
         if isinstance(index, theclass):
-            path = list(parse_partial(index))
+            path = parse_partial(index)
             break
     else:
-        path = list(itertools.chain(*map(parse_partial, index)))
+        path = itertools.chain(*map(parse_partial, index))
 
-    return [cachedir] + path
+    return list(path)
 
 def parse_partial(item):
     if isinstance(item, basestring):
