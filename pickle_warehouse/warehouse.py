@@ -27,6 +27,11 @@ class Warehouse:
     def __contains__(self, index):
         return os.path.isfile(self.filename(index))
 
+    def keys(self):
+        for dirpath, _, filenames in os.walk(self.cachedir):
+            for filename in filenames:
+                yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+
 def _reversed_directories(outer, inner):
     while outer != inner:
         yield inner
