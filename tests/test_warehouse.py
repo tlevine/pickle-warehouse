@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from shutil import rmtree
 
+import nose.tools as n
+
 from pickle_warehouse.warehouse import Warehouse
 
 class TestWarehouse(unittest.TestCase):
@@ -55,3 +57,42 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, 'dictionary'), 'rb') as fp:
             observed = pickle.load(fp)
         self.assertEqual(observed, {'a':'z'})
+
+    def test_keys(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb'):
+            pass
+        with open(os.path.join(self.tmp, 'z'), 'wb'):
+            pass
+
+        observed = set(self.w.keys())
+        expected = {'a/b/c/d', 'z'}
+
+        n.assert_set_equal(observed, expected)
+
+    def test_values(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb') as fp:
+            pickle.dump({1,2,3}, fp)
+        with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
+            pickle.dump(str, fp)
+
+        observed = set(self.w.values())
+        expected = {3,str}
+
+        n.assert_set_equal(observed, expected)
+
+    def test_items(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb') as fp:
+            pickle.dump(9, fp)
+        with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
+            pickle.dump(str, fp)
+
+        observed = set(self.w.items())
+        expected = {('a/b/c/d',9), ('z',str)}
+
+        n.assert_set_equal(observed, expected)
