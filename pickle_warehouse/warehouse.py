@@ -54,6 +54,12 @@ class Warehouse:
         for k, v in d.items():
             self[k] = v
 
+    def get(self, index, default = None):
+        if index in self:
+            return self[index]
+        else:
+            return default
+
 def _reversed_directories(outer, inner):
     while outer != inner:
         yield inner
