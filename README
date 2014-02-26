@@ -1,13 +1,13 @@
 Pickle Warehouse
 ==================
-``pickle-warehouse`` makes it easy to save Python
+Pickle Warehouse makes it easy to save Python
 objects to files with meaningful identifiers.
 
 How to use
 -------------------
-`pickle-warehouse` provides a dictionary-like object
+Pickle Warehouse provides a dictionary-like object
 that is associated with a particular directory on
-your computer.
+your computer. ::
 
     from pickle_warehouse import Warehouse
     warehouse = Warehouse('/tmp/a-directory')
