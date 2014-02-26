@@ -4,9 +4,9 @@ from pickle_warehouse.identifiers import parse
 
 cachedir = '/tmp/_'
 
-def check_parse(self, index:str, path:list):
-    observed = parse(index)
-    n.assert_list_equal(observed, expected)
+def check_parse(index:str, path:list):
+    observed = parse(cachedir, index)
+    n.assert_list_equal(observed, path)
 
 def test_parse():
     for index, path in testcases:
