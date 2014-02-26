@@ -2,6 +2,11 @@ import os, pickle
 
 from pickle_warehouse.identifiers import parse as parse_identifier
 
+try:
+    FileExistsError
+except NameError:
+    FileExistsError = OSError
+
 class Warehouse:
     def __init__(self, cachedir):
         self.cachedir = cachedir
