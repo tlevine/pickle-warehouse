@@ -1,4 +1,8 @@
-from urllib.request import urlsplit
+try:
+    from urllib.parse import urlsplit
+except ImportError:
+    import urllib2
+    urlsplit = urllib2.urlparse.urlsplit
 import itertools
 import datetime
 

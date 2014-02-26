@@ -4,7 +4,8 @@ import nose.tools as n
 
 from pickle_warehouse.identifiers import parse, parse_partial
 
-def check_parse(index:str, path:list):
+#def check_parse(index:str, path:list):
+def check_parse(index, path):
     observed = parse(index)
     n.assert_list_equal(observed, path)
 
