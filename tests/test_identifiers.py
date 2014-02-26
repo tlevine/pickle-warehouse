@@ -1,3 +1,5 @@
+import datetime
+
 import nose.tools as n
 
 from pickle_warehouse.identifiers import parse, parse_partial
@@ -15,6 +17,16 @@ def test_parse():
 def test_parse_url():
     o = list(parse_partial('http://thomaslevine.com/!/about?a=b#lala'))
     e = ['http', 'thomaslevine.com', '!', 'about?a=b#lala']
+    n.assert_list_equal(o, e)
+
+def test_parse_date():
+    o = list(parse_partial(datetime.date(2014, 2, 25)))
+    e = ['2014', '02', '25']
+    n.assert_list_equal(o, e)
+
+def test_parse_datetime():
+    o = list(parse_partial(datetime.datetime(2014, 2, 25, 11, 18, 30)))
+    e = ['2014', '02', '25']
     n.assert_list_equal(o, e)
 
 testcases = [

@@ -1,5 +1,6 @@
 from urllib.request import urlsplit
 import itertools
+import datetime
 
 # For Python 2 compatibility
 try:
@@ -8,8 +9,10 @@ except NameError:
     basestring = str
 
 def parse(cachedir, index):
-    if isinstance(index, basestring):
-        path = list(parse_partial(index))
+    for theclass in [basestring, datetime.date, datetime.datetime]:
+        if isinstance(index, theclass):
+            path = list(parse_partial(index))
+            break
     else:
         path = list(itertools.chain(*map(parse_partial, index)))
 
