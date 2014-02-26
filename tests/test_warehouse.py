@@ -26,14 +26,16 @@ class TestWarehouse(unittest.TestCase):
         self.assertEqual(self.w['profession'], 'dada artist')
 
     def test_delitem(self):
-        path = os.path.join(self.tmp, 'how many')
-        with open(path, 'wb') as fp:
-            observed = pickle.dump(9001, fp)
-        del(self.w['how many'])
-        self.assertFalse(os.path.exists(path))
+        dirname = os.path.join(self.tmp, 'foo')
+        filename= os.path.join(dirname, 'bar')
+        with open(filename, 'wb') as fp:
+            pass
+        del(self.w[['foo','bar']])
+        self.assertFalse(os.path.exists(filename))
+        self.assertFalse(os.path.exists(dirname))
 
     def test_contains(self):
         self.assertFalse('needle' in self.w)
-        with open(path, 'wb'):
+        with open(os.path.join(self.tmp, 'needle'), 'wb'):
             pass
         self.assertTrue('needle' in self.w)
