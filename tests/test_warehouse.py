@@ -28,6 +28,7 @@ class TestWarehouse(unittest.TestCase):
     def test_delitem(self):
         dirname = os.path.join(self.tmp, 'foo')
         filename= os.path.join(dirname, 'bar')
+        os.mkdir(dirname)
         with open(filename, 'wb') as fp:
             pass
         del(self.w[['foo','bar']])

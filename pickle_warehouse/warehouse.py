@@ -19,4 +19,4 @@ class Warehouse:
         return item
 
     def __delitem__(self, index):
-        os.path.remove(self.filename(index))
+        os.remove(self.filename(index))
