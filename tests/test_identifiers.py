@@ -31,6 +31,7 @@ testcases = [
     (('a','b','c'), ['a', 'b', 'c']),
     (['foo','bar','baz'], ['foo', 'bar', 'baz']),
     ('def', ['def']),
+    ('favorite color', ['favorite color']),
     ('left/middle/right', ['left', 'middle', 'right']),
     ('http://thomaslevine.com/!?foo=bar', ['http', 'thomaslevine.com', '!?foo=bar']),
     (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], ['http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),

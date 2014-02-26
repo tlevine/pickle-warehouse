@@ -1,3 +1,5 @@
+import os, pickle
+
 from pickle_warehouse.identifiers import parse as parse_identifier
 
 class Warehouse:
@@ -5,4 +7,6 @@ class Warehouse:
         self.cachedir = cachedir
 
     def __setitem__(self, index, obj):
-        parse_identifier(index)
+        fn = os.path.join(self.cachedir, *parse_identifier(index))
+        with open(fn, 'wb') as fp:
+            pickle.dump(obj, fp)

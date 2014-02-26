@@ -1,4 +1,5 @@
 import os
+import pickle
 import tempfile
 import unittest
 from shutil import rmtree
@@ -17,5 +18,4 @@ class TestWarehouse(unittest.TestCase):
         self.w['favorite color'] = 'pink'
         with open(os.path.join(self.tmp, 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
-        expected = pickle.dumps('pink')
-        self.assertEqual(observed, expected)
+        self.assertEqual(observed, 'pink')
