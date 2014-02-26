@@ -16,6 +16,10 @@ class TestWarehouse(unittest.TestCase):
     def tearDown(self):
         rmtree(self.tmp)
 
+    def test_repr(self):
+        self.assertEqual(repr(self.w), 'Warehouse("%s")' % self.tmp)
+        self.assertEqual(str(self.w), 'Warehouse("%s")' % self.tmp)
+
     def test_setitem(self):
         self.w[("Tom's", 'favorite color')] = 'pink'
         with open(os.path.join(self.tmp, "Tom's", 'favorite color'), 'rb') as fp:
