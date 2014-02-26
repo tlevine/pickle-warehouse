@@ -8,6 +8,9 @@ except NameError:
     FileExistsError = OSError
 
 class Warehouse:
+    def __repr__(self):
+        return 'Warehouse(%s)' % repr(self.cachedir)
+
     def __init__(self, cachedir):
         self.cachedir = cachedir
 

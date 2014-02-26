@@ -17,8 +17,8 @@ class TestWarehouse(unittest.TestCase):
         rmtree(self.tmp)
 
     def test_repr(self):
-        self.assertEqual(repr(self.w), 'Warehouse("%s")' % self.tmp)
-        self.assertEqual(str(self.w), 'Warehouse("%s")' % self.tmp)
+        self.assertEqual(repr(self.w), "Warehouse('%s')" % self.tmp)
+        self.assertEqual(str(self.w), "Warehouse('%s')" % self.tmp)
 
     def test_setitem(self):
         self.w[("Tom's", 'favorite color')] = 'pink'
