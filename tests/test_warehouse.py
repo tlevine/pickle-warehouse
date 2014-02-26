@@ -10,5 +10,11 @@ class TestWarehouse(unittest.TestCase):
         self.tmp = tempfile.mkdtemp()
         self.w = Warehouse(self.tmp)
 
-    def test_set(self):
-        self.w
+    def test_set_tuple(self):
+        self.w[('a','b','c')] = 'abc'
+
+    def test_set_list(self):
+        self.w[('a','b','c')] = 'abc'
+
+    def test_set_list(self):
+        self.w[('a','b','c')] = 'abc'

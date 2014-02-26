@@ -1,0 +1,5 @@
+``pickle-warehouse`` makes it easy to save Python
+objects to files with meaningful identifiers.
+
+If you want a simpler pickle store, look at
+[pickleDB](https://pythonhosted.org/pickleDB/).
