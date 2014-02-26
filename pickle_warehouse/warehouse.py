@@ -37,10 +37,11 @@ class Warehouse:
             for filename in filenames:
                 yield self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
 
-    def keys(self):
+    def items(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
             for filename in filenames:
-                yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+                index = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+                yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
 
 def _reversed_directories(outer, inner):
     while outer != inner:
