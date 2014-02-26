@@ -14,20 +14,26 @@ class TestWarehouse(unittest.TestCase):
     def tearDown(self):
         rmtree(self.tmp)
 
-    def test_set_item(self):
+    def test_setitem(self):
         self.w['favorite color'] = 'pink'
         with open(os.path.join(self.tmp, 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
 
-    def test_get_item(self):
-        with open(os.path.join(self.tmp, 'favorite color'), 'wb') as fp:
-            observed = pickle.dump('pink', fp)
-        self.assertEqual(self.w['favorite color'], 'pink')
+    def test_getitem(self):
+        with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
+            observed = pickle.dump('dada artist', fp)
+        self.assertEqual(self.w['profession'], 'dada artist')
 
-    def test_del_item(self):
-        path = os.path.join(self.tmp, 'favorite color')
+    def test_delitem(self):
+        path = os.path.join(self.tmp, 'how many')
         with open(path, 'wb') as fp:
-            observed = pickle.dump('pink', fp)
-        del(self.w['favorite color'])
+            observed = pickle.dump(9001, fp)
+        del(self.w['how many'])
         self.assertFalse(os.path.exists(path))
+
+    def test_contains(self):
+        self.assertFalse('needle' in self.w)
+        with open(path, 'wb'):
+            pass
+        self.assertTrue('needle' in self.w)
