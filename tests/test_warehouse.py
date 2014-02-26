@@ -19,3 +19,8 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
+
+    def test_get_item(self):
+        with open(os.path.join(self.tmp, 'favorite color'), 'wb') as fp:
+            observed = pickle.dump('pink', fp)
+        self.assertEqual(self.w['favorite color'], 'pink')
