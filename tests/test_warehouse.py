@@ -49,3 +49,9 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, 'z'), 'wb'):
             pass
         self.assertEqual(len(self.w), 2)
+
+    def test_update(self):
+        self.w.update({'dictionary': {'a':'z'}})
+        with open(os.path.join(self.tmp, 'dictionary'), 'rb') as fp:
+            observed = pickle.load(fp)
+        self.assertEqual(observed, {'a':'z'})
