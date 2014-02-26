@@ -1,5 +1,7 @@
 from distutils.core import setup
 
+from pickle_warehouse import version
+
 setup(name='pickle-warehouse',
       author='Thomas Levine',
       author_email='_@thomaslevine.com',
@@ -8,6 +10,6 @@ setup(name='pickle-warehouse',
       packages=['pickle_warehouse'],
       install_requires = [],
       tests_require = ['nose'],
-      version='0.0.1',
+      version=version,
       license='BSD',
 )
