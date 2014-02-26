@@ -24,6 +24,9 @@ class Warehouse:
         for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
             os.rmdir(path)
 
+    def __contains__(self, index):
+        return os.path.isfile(self.filename(index))
+
 def _reversed_directories(outer, inner):
     while outer != inner:
         yield inner
