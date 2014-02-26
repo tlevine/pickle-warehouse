@@ -19,6 +19,15 @@ def parse(cachedir, index):
     return [cachedir] + path
 
 def parse_partial(item):
+    if isinstance(item, basestring):
+        func = parse_partial_url
+    elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
+        func = parse_partial_date
+    else:
+        raise ValueError('item must be string, datetime.date or datetime.datetime')
+    return func(item)
+
+def parse_partial_url(item):
     url = urlsplit(item)
     path = []
 
@@ -39,3 +48,6 @@ def parse_partial(item):
         path[-1] += '#' + url.fragment
 
     return path
+
+def parse_partial_date(item):
+    return ['%04d' % item.year, '%02d', item.month, '%02d', item.day]
