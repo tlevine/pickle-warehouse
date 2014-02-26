@@ -1,3 +1,5 @@
+Pickle Warehouse
+==================
 ``pickle-warehouse`` makes it easy to save Python
 objects to files with meaningful identifiers.
 `pickle-warehouse` provides a dictionary-like object
@@ -55,7 +57,8 @@ And you can mix these formats!
 It also has typical dictionary methods like ``keys``, ``values``, ``items``,
 and ``update``.
 
-## When to use this
+When to use this
+----------------
 Use this when you want a persistant store of Python objects.
 If you want an in-memory pickle store, look at
 _pickleDB: https://pythonhosted.org/pickleDB/.
