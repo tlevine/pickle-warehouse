@@ -27,6 +27,13 @@ class Warehouse:
     def __contains__(self, index):
         return os.path.isfile(self.filename(index))
 
+    def __len__(self):
+        length = 0
+        for dirpath, _, filenames in os.walk(self.cachedir):
+            for filename in filenames:
+                length += 1
+        return length
+
     def keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
             for filename in filenames:
@@ -42,6 +49,10 @@ class Warehouse:
             for filename in filenames:
                 index = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
                 yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
+
+    def update(self, d):
+        for k, v in d.items():
+            self[k] = v
 
 def _reversed_directories(outer, inner):
     while outer != inner:
