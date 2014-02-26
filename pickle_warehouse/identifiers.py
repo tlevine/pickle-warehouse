@@ -9,29 +9,30 @@ except NameError:
 
 def parse(cachedir, index):
     if isinstance(index, basestring):
-        path = [index]
+        path = list(parse_partial(index))
     else:
         path = list(itertools.chain(*map(parse_partial, index)))
 
     return [cachedir] + path
 
 def parse_partial(item):
-    x = urlsplit(item)
+    url = urlsplit(item)
+    path = []
 
-    if x.scheme:
-        yield x.scheme
+    if url.scheme:
+        path.append(url.scheme)
 
-    if x.netloc:
-        yield x.netloc
+    if url.netloc:
+        path.append(url.netloc)
 
-    if x.path:
-        for y in filter(None, path.split('/')):
-            yield y
+    if url.path:
+        for y in filter(None, url.path.split('/')):
+            path.append(y)
 
-    rightmost = ''
-    if x.query:
-        rightmost += '?' + x.query
-    if x.fragment:
-        rightmost += '#' + x.fragment
-    if rightmost:
-        yield rightmost
+    if url.query:
+        path[-1] += '?' + url.query
+
+    if url.fragment:
+        path[-1] += '#' + url.fragment
+
+    return path
