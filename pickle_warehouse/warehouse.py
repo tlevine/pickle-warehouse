@@ -10,7 +10,12 @@ class Warehouse:
         return os.path.join(self.cachedir, *parse_identifier(index))
 
     def __setitem__(self, index, obj):
-        with open(self.filename(index), 'wb') as fp:
+        fn = self.filename(index)
+        try:
+            os.makedirs(os.path.split(fn)[0])
+        except FileExistsError:
+            pass
+        with open(fn, 'wb') as fp:
             pickle.dump(obj, fp)
 
     def __getitem__(self, index):
