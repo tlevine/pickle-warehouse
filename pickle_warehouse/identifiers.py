@@ -1,4 +1,5 @@
 from urllib.request import urlparse
+import itertools
 
 # For Python 2 compatibility
 try:
