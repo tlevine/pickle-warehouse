@@ -24,3 +24,10 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, 'favorite color'), 'wb') as fp:
             observed = pickle.dump('pink', fp)
         self.assertEqual(self.w['favorite color'], 'pink')
+
+    def test_del_item(self):
+        path = os.path.join(self.tmp, 'favorite color')
+        with open(path, 'wb') as fp:
+            observed = pickle.dump('pink', fp)
+        del(self.w['favorite color'])
+        self.assertFalse(os.path.exists(path))
