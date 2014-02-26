@@ -18,5 +18,5 @@ class Warehouse:
             item = pickle.load(fp)
         return item
 
-    def __detitem__(self, index):
+    def __delitem__(self, index):
         os.path.remove(self.filename(index))
