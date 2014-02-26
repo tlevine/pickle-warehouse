@@ -19,4 +19,15 @@ class Warehouse:
         return item
 
     def __delitem__(self, index):
-        os.remove(self.filename(index))
+        path = self.filename(index)
+        os.remove(path)
+        for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
+            os.rmdir(path)
+
+def _reversed_directories(outer, inner):
+    while outer != inner:
+        yield inner
+        try:
+            inner = os.path.split(inner)[0]
+        except OSError:
+            pass
