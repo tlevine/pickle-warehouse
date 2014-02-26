@@ -13,8 +13,8 @@ def test_parse():
         yield check_parse, index, path
 
 def test_parse_url():
-    o = parse_partial(cachedir, 'http://thomaslevine.com/!/about?a=b#lala')
-    e = [cachedir, 'http', 'thomaslevine.com', '!', 'about?a=b#lala']
+    o = list(parse_partial('http://thomaslevine.com/!/about?a=b#lala'))
+    e = ['http', 'thomaslevine.com', '!', 'about?a=b#lala']
     n.assert_list_equal(o, e)
 
 testcases = [
