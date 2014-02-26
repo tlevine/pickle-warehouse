@@ -15,9 +15,17 @@ pickled to the files. ::
     import pickle
     range(100) == pickle.load(open('/tmp/a-directory/filename', 'rb'))
 
-The main cool thing is that the key gets interpreted
+You can also read and delete things. ::
+
+    # Read
+    range(100) == warehouse['filename']
+
+    # Delete
+    del(warehouse['filename'])
+
+The coolest part is that the key gets interpreted
 in a fancy way. Aside from strings and string-like objects,
-you can use iterables of strigs; all of these indices refer
+you can use iterables of strings; all of these indices refer
 to the file ``/tmp/a-directory/foo/bar/baz``::
 
     warehouse[('foo','bar','baz')]
@@ -44,9 +52,10 @@ And you can mix these formats!
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     warehouse[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
 
+It also has typical dictionary methods like ``keys``, ``values``, ``items``,
+and ``update``.
 
 ## When to use this
 Use this when you want a persistant store of Python objects.
-
 If you want an in-memory pickle store, look at
 _pickleDB: https://pythonhosted.org/pickleDB/.
