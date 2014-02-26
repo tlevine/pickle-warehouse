@@ -1,9 +1,13 @@
-import types
-
 from urllib.request import urlparse
 
+# For Python 2 compatibility
+try:
+    basestring
+except NameError:
+    basestring = str
+
 def parse(cachedir, index):
-    if isinstance(index, types.StringTypes):
+    if isinstance(index, basestring):
         path = [index]
     else:
         path = list(itertools.chain(map(parse_partial, index)))
