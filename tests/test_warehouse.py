@@ -1,3 +1,4 @@
+import os
 import tempfile
 import unittest
 from shutil import rmtree
@@ -14,7 +15,7 @@ class TestWarehouse(unittest.TestCase):
 
     def test_set_item(self):
         self.w['favorite color'] = 'pink'
-        with open(os.path.join(self.tmp, 'favorite color', 'rb')) as fp:
+        with open(os.path.join(self.tmp, 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         expected = pickle.dumps('pink')
         self.assertEqual(observed, expected)
