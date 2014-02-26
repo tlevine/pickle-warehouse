@@ -18,5 +18,5 @@ testcases = [
     ('def', [cachedir, 'def']),
     ('left/middle/right', [cachedir, 'left', 'middle', 'right']),
     ('http://thomaslevine.com/!?foo=bar', [cachedir, 'http', 'thomaslevine.com', '!?foo=bar']),
-    (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], ['http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
+    (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], [cachedir, 'http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
 ]
