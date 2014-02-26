@@ -50,4 +50,4 @@ def parse_partial_url(item):
     return path
 
 def parse_partial_date(item):
-    return ['%04d' % item.year, '%02d', item.month, '%02d', item.day]
+    return ['%04d' % item.year, '%02d' % item.month, '%02d' % item.day]
