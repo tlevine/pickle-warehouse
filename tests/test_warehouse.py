@@ -20,6 +20,8 @@ class TestWarehouse(unittest.TestCase):
         self.assertEqual(repr(self.w), "Warehouse('%s')" % self.tmp)
         self.assertEqual(str(self.w), "Warehouse('%s')" % self.tmp)
 
+        self.assertEqual(str(Warehouse('/tmp/a"b"c"')), '''Warehouse('/tmp/a"b"c"')''')
+
     def test_setitem(self):
         self.w[("Tom's", 'favorite color')] = 'pink'
         with open(os.path.join(self.tmp, "Tom's", 'favorite color'), 'rb') as fp:
