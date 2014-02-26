@@ -1,5 +1,52 @@
 ``pickle-warehouse`` makes it easy to save Python
 objects to files with meaningful identifiers.
+`pickle-warehouse` provides a dictionary-like object
+that is associated with a particular directory on
+your computer.
 
-If you want a simpler pickle store, look at
-[pickleDB](https://pythonhosted.org/pickleDB/).
+    from pickle_warehouse import Warehouse
+    warehouse = Warehouse('/tmp/a-directory')
+
+The keys correspond to files, and the values get
+pickled to the files. ::
+
+    warehouse['filename'] = range(100)
+
+    import pickle
+    range(100) == pickle.load(open('/tmp/a-directory/filename', 'rb'))
+
+The main cool thing is that the key gets interpreted
+in a fancy way. Aside from strings and string-like objects,
+you can use iterables of strigs; all of these indices refer
+to the file ``/tmp/a-directory/foo/bar/baz``::
+
+    warehouse[('foo','bar','baz')]
+    warehouse[['foo','bar','baz']]
+
+If you pass a URL, it will get broken up in a reasonable way. ::
+
+    # /tmp/a-directory/http/thomaslevine.com/!/?foo=bar#baz
+    warehouse['http://thomaslevine.com/!/?foo=bar#baz']
+
+    # /tmp/a-directory/thomaslevine.com/!?foo=bar#baz
+    warehouse['thomaslevine.com/!?foo=bar#baz']
+
+Dates and datetimes get converted to ``YYYY-MM-DD`` format.
+
+    import datetime
+
+    # /tmp/a-directory/2014-02-26
+    warehouse[datetime.date(2014,2,26)]
+    warehouse[datetime.datetime(2014,2,26,13,6,42)]
+
+And you can mix these formats!
+
+    # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
+    warehouse[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
+
+
+## When to use this
+Use this when you want a persistant store of Python objects.
+
+If you want an in-memory pickle store, look at
+_pickleDB: https://pythonhosted.org/pickleDB/.
