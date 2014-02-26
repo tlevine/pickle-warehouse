@@ -17,8 +17,8 @@ class TestWarehouse(unittest.TestCase):
         rmtree(self.tmp)
 
     def test_setitem(self):
-        self.w['favorite color'] = 'pink'
-        with open(os.path.join(self.tmp, 'favorite color'), 'rb') as fp:
+        self.w[("Tom's", 'favorite color')] = 'pink'
+        with open(os.path.join(self.tmp, "Tom's", 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
 
