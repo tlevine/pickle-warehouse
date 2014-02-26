@@ -40,3 +40,12 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, 'needle'), 'wb'):
             pass
         self.assertTrue('needle' in self.w)
+
+    def test_len(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb'):
+            pass
+        with open(os.path.join(self.tmp, 'z'), 'wb'):
+            pass
+        self.assertEqual(len(self.w), 2)
