@@ -75,12 +75,12 @@ class TestWarehouse(unittest.TestCase):
         abc = os.path.join(self.tmp, 'a', 'b', 'c')
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb') as fp:
-            pickle.dump({1,2,3}, fp)
+            pickle.dump(123, fp)
         with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
             pickle.dump(str, fp)
 
         observed = set(self.w.values())
-        expected = {3,str}
+        expected = {123,str}
 
         n.assert_set_equal(observed, expected)
 
