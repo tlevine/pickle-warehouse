@@ -108,3 +108,11 @@ class TestWarehouse(unittest.TestCase):
         expected = {('a/b/c/d',9), ('z',str)}
 
         n.assert_set_equal(observed, expected)
+
+
+def test_mkdir():
+    w = Warehouse('/tmp/not a directory')
+    w[('abc','def','ghi')] = 3
+    with open(os.path.join('/tmp/not a directory/abc/def/ghi'), 'rb') as fp:
+        observed = pickle.load(fp)
+    n.assert_equal(observed, 3)
