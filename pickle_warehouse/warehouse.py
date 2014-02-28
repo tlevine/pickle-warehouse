@@ -37,9 +37,13 @@ class Warehouse:
 
     def __delitem__(self, index):
         path = self.filename(index)
-        os.remove(path)
-        for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
-            os.rmdir(path)
+        try:
+            os.remove(path)
+        except FileNotFoundError as e:
+            raise KeyError(*e.args)
+        else:
+            for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
+                os.rmdir(path)
 
     def __contains__(self, index):
         return os.path.isfile(self.filename(index))
