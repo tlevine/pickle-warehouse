@@ -1,2 +1,2 @@
 from pickle_warehouse.warehouse import Warehouse
-version = '0.0.4'
+version = '0.0.5'
