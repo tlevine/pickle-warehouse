@@ -31,9 +31,13 @@ class Warehouse:
             pickle.dump(obj, fp)
 
     def __getitem__(self, index):
-        with open(self.filename(index), 'rb') as fp:
-            item = pickle.load(fp)
-        return item
+        try:
+            with open(self.filename(index), 'rb') as fp:
+                item = pickle.load(fp)
+        except FileNotFoundError as e:
+            raise KeyError(*e.args)
+        else:
+            return item
 
     def __delitem__(self, index):
         path = self.filename(index)
