@@ -33,6 +33,9 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.dump('dada artist', fp)
         self.assertEqual(self.w['profession'], 'dada artist')
 
+        with self.assertRaises(KeyError):
+            self.w['not a file']
+
     def test_get(self):
         with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
             observed = pickle.dump('dada artist', fp)
@@ -48,6 +51,9 @@ class TestWarehouse(unittest.TestCase):
         del(self.w[['foo','bar']])
         self.assertFalse(os.path.exists(filename))
         self.assertFalse(os.path.exists(dirname))
+
+        with self.assertRaises(KeyError):
+            del(self.w['not a file'])
 
     def test_contains(self):
         self.assertFalse('needle' in self.w)

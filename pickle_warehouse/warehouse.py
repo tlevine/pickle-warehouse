@@ -7,6 +7,13 @@ try:
 except NameError:
     FileExistsError = OSError
 
+def mkdir(fn):
+    'Make a directory that will contain the file.'
+    try:
+        os.makedirs(os.path.split(fn)[0])
+    except FileExistsError:
+        pass
+
 class Warehouse:
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
@@ -19,10 +26,7 @@ class Warehouse:
 
     def __setitem__(self, index, obj):
         fn = self.filename(index)
-        try:
-            os.makedirs(os.path.split(fn)[0])
-        except FileExistsError:
-            pass
+        mkdir(fn)
         with open(fn, 'wb') as fp:
             pickle.dump(obj, fp)
 
