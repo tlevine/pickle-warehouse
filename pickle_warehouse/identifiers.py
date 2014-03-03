@@ -24,12 +24,18 @@ def parse(index):
 
 def parse_partial(item):
     if isinstance(item, basestring):
-        func = parse_partial_url
+        func = parse_partial_text
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
     else:
         raise ValueError('item must be string, datetime.date or datetime.datetime')
     return func(item)
+
+def parse_partial_text(item):
+    for a in parse_partial_url(item):
+        for b in a.split('\\'):
+            if b != '':
+                yield b
 
 def parse_partial_url(item):
     url = urlsplit(item)
