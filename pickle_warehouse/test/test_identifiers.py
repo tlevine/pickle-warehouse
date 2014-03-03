@@ -36,7 +36,7 @@ testcases = [
     ('left/middle/right', ['left', 'middle', 'right']),
     ('backslashes\\also\\delimit', ['backslashes','also','delimit']),
     ('/home/tlevine/warehouse', ['home', 'tlevine', 'warehouse']),
-    ('C:\\Users\\Documents', ['C:', 'Users', 'Documents']),
+    ('C:\\Users\\Documents', ['c', 'Users', 'Documents']),
     ('http://thomaslevine.com/!?foo=bar', ['http', 'thomaslevine.com', '!?foo=bar']),
     (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], ['http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
 ]

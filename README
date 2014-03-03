@@ -45,7 +45,8 @@ that is, strings get split on slashes and backslashes. ::
 Note well: Absolute paths will get interpreted as relative. ::
 
     warehouse['/foo/bar/baz'] # -> foo, bar, baz
-    warehouse['C:\\foo\\bar\\baz'] -> C:, foo, bar, baz
+    warehouse['C:\\foo\\bar\\baz'] # -> c, foo, bar, baz
+                                   # (lowercase "c")
 
 If you pass a URL, it will also get broken up in a reasonable way. ::
 
