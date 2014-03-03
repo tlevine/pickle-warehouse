@@ -117,8 +117,10 @@ class TestWarehouse(unittest.TestCase):
 
 
 def test_mkdir():
-    w = Warehouse('/tmp/not a directory')
-    rmtree('/tmp/not a directory')
+    d = '/tmp/not a directory'
+    w = Warehouse(d)
+    if os.path.exists(d):
+        rmtree(d)
     w[('abc','def','ghi')] = 3
     with open(os.path.join('/tmp/not a directory/abc/def/ghi'), 'rb') as fp:
         observed = pickle.load(fp)
