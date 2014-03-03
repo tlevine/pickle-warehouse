@@ -42,7 +42,7 @@ that is, strings get split on slashes and backslashes. ::
     warehouse['foo/bar/baz']
     warehouse['foo\\bar\\baz']
 
-Note well: Absolute paths will get interpreted as relative. ::
+Note well: Specifying an absolute path won't save things outside the warehouse directory. ::
 
     warehouse['/foo/bar/baz'] # -> foo, bar, baz
     warehouse['C:\\foo\\bar\\baz'] # -> c, foo, bar, baz
