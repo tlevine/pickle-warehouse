@@ -36,7 +36,18 @@ to the file ``/tmp/a-directory/foo/bar/baz``::
     warehouse[('foo','bar','baz')]
     warehouse[['foo','bar','baz']]
 
-If you pass a URL, it will get broken up in a reasonable way. ::
+If you pass a relative path to a file, it will be broken up as you'd expect;
+that is, strings get split on slashes and backslashes. ::
+
+    warehouse['foo/bar/baz']
+    warehouse['foo\\bar\\baz']
+
+Note well: Absolute paths will get interpreted as relative. ::
+
+    warehouse['/foo/bar/baz'] # -> foo, bar, baz
+    warehouse['C:\\foo\\bar\\baz'] -> C:, foo, bar, baz
+
+If you pass a URL, it will also get broken up in a reasonable way. ::
 
     # /tmp/a-directory/http/thomaslevine.com/!/?foo=bar#baz
     warehouse['http://thomaslevine.com/!/?foo=bar#baz']
@@ -44,7 +55,7 @@ If you pass a URL, it will get broken up in a reasonable way. ::
     # /tmp/a-directory/thomaslevine.com/!?foo=bar#baz
     warehouse['thomaslevine.com/!?foo=bar#baz']
 
-Dates and datetimes get converted to ``YYYY-MM-DD`` format. ::
+Dates and datetimes get converted to :code:`YYYY-MM-DD` format. ::
 
     import datetime
 
@@ -57,11 +68,11 @@ And you can mix these formats! ::
     # /tmp/a-directory/http/thomaslevine.com/open-data/2014-02-26
     warehouse[('http://thomaslevine.com/open-data', datetime.date(2014,2,26))]
 
-It also has typical dictionary methods like ``keys``, ``values``, ``items``,
-and ``update``.
+It also has typical dictionary methods like :code:`keys`, :code:`values`, :code:`items`,
+and :code:`update`.
 
 When to use
 ----------------
-Use this when you want a persistant store of Python objects.
+pickle-warehouse is for when you want a persistant store of Python objects.
 If you want an in-memory pickle store, look at
 _pickleDB: https://pythonhosted.org/pickleDB/.
