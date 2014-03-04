@@ -13,6 +13,11 @@ def test_parse():
     for index, path in testcases:
         yield check_parse, index, path
 
+def test_parse_int():
+    o = list(parse_partial(range(9)))
+    e = list(map(str, range(9)))
+    n.assert_list_equal(o, e)
+
 def test_parse_url():
     o = list(parse_partial('http://thomaslevine.com/!/about?a=b#lala'))
     e = ['http', 'thomaslevine.com', '!', 'about?a=b#lala']
