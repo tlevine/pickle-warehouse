@@ -50,3 +50,7 @@ def test_deterministic_order():
     successes = [[3,6], (2,1), 'aoeua']
     for thing in successes:
         n.assert_true(safe_type(thing))
+
+def test_warn_unsafe_type():
+    with n.assert_warns(UserWarning):
+        parse({'one','two','three'})
