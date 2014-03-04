@@ -3,6 +3,7 @@ try:
 except ImportError:
     import urllib2
     urlsplit = urllib2.urlparse.urlsplit
+import warnings
 import itertools
 import datetime
 
@@ -13,6 +14,9 @@ except NameError:
     basestring = str
 
 def parse(index):
+    if not safe_type(index):
+        warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
+
     for theclass in [basestring, datetime.date, datetime.datetime]:
         if isinstance(index, theclass):
             path = parse_partial(index)
