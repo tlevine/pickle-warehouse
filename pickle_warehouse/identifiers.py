@@ -65,6 +65,6 @@ def parse_partial_date(item):
 def safe_type(index):
     for bad in [set,dict]:
         if isinstance(index, bad):
-            return True
+            return False
     else:
-        return False
+        return True

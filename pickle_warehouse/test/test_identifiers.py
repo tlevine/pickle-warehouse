@@ -48,5 +48,5 @@ def test_deterministic_order():
         n.assert_false(safe_type(thing))
 
     successes = [[3,6], (2,1), 'aoeua']
-    for thing in successes():
-        n.assert_true(safe(thing))
+    for thing in successes:
+        n.assert_true(safe_type(thing))
