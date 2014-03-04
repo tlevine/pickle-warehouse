@@ -17,7 +17,7 @@ def parse(index):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
-    for theclass in [basestring, datetime.date, datetime.datetime]:
+    for theclass in [basestring, datetime.date, datetime.datetime, int]:
         if isinstance(index, theclass):
             path = parse_partial(index)
             break
@@ -29,10 +29,12 @@ def parse(index):
 def parse_partial(item):
     if isinstance(item, basestring):
         func = parse_partial_text
+    elif isinstance(item, int):
+        func = str
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
     else:
-        raise ValueError('item must be string, datetime.date or datetime.datetime')
+        raise ValueError('item must be string, datetime.date, datetime.datetime or int')
     return func(item)
 
 def parse_partial_text(item):
