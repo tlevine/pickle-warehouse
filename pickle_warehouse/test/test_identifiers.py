@@ -2,7 +2,7 @@ import datetime
 
 import nose.tools as n
 
-from pickle_warehouse.identifiers import parse, parse_partial
+from pickle_warehouse.identifiers import parse, parse_partial, safe_type
 
 #def check_parse(index:str, path:list):
 def check_parse(index, path):
@@ -45,8 +45,8 @@ def test_deterministic_order():
     'The iterable should have a deterministic order.'
     failures = [{3,5}, {'a':'apple','b':'banana'}]
     for thing in failures:
-        n.assert_false(good_type(thing))
+        n.assert_false(safe_type(thing))
 
     successes = [[3,6], (2,1), 'aoeua']
     for thing in successes():
-        n.assert_true(good_type(thing))
+        n.assert_true(safe(thing))

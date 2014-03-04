@@ -61,3 +61,10 @@ def parse_partial_url(item):
 
 def parse_partial_date(item):
     return ['%04d' % item.year, '%02d' % item.month, '%02d' % item.day]
+
+def safe_type(index):
+    for bad in [set,dict]:
+        if isinstance(index, bad):
+            return True
+    else:
+        return False
