@@ -10,7 +10,7 @@ except NameError:
 try:
     FileNotFoundError
 except NameError:
-    FileNotFoundError = OSError
+    FileNotFoundError = IOError
 
 def mkdir(fn):
     'Make a directory that will contain the file.'
