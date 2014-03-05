@@ -10,7 +10,16 @@ except NameError:
 try:
     FileNotFoundError
 except NameError:
-    FileNotFoundError = IOError
+    OpenError = IOError
+else:
+    OpenError = FileNotFoundError
+
+try:
+    FileNotFoundError
+except NameError:
+    DeleteError = OSError
+else:
+    DeleteError = FileNotFoundError
 
 def mkdir(fn):
     'Make a directory that will contain the file.'
@@ -39,7 +48,7 @@ class Warehouse:
         try:
             with open(self.filename(index), 'rb') as fp:
                 item = pickle.load(fp)
-        except FileNotFoundError as e:
+        except OpenError as e:
             raise KeyError(*e.args)
         else:
             return item
@@ -48,7 +57,7 @@ class Warehouse:
         path = self.filename(index)
         try:
             os.remove(path)
-        except FileNotFoundError as e:
+        except DeleteError as e:
             raise KeyError(*e.args)
         else:
             for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
