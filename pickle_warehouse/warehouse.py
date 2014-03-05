@@ -7,6 +7,11 @@ try:
 except NameError:
     FileExistsError = OSError
 
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = OSError
+
 def mkdir(fn):
     'Make a directory that will contain the file.'
     try:
