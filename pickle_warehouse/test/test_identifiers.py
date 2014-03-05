@@ -54,6 +54,13 @@ def test_deterministic_order():
     for thing in successes:
         n.assert_true(safe_type(thing))
 
-def test_warn_unsafe_type():
-    with n.assert_warns(UserWarning):
-        parse({'one','two','three'})
+try:
+    n.assert_warns
+except AttributeError:
+    @n.nottest
+    def test_warn_unsafe_type():
+        pass
+else:
+    def test_warn_unsafe_type():
+        with n.assert_warns(UserWarning):
+            parse({'one','two','three'})
