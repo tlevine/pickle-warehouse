@@ -24,7 +24,15 @@ def parse(index):
     else:
         path = itertools.chain(*map(parse_partial, index))
 
-    return list(path)
+    return list(replace_special(path))
+
+_special = {'.': '\\.', '..': '\\..'}
+def replace_special(path):
+    for item in path:
+        if item in _special:
+            yield _special[item]
+        else:
+            yield item
 
 def parse_partial(item):
     if isinstance(item, basestring):
