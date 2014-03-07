@@ -32,16 +32,29 @@ def test_parse_datetime():
     n.assert_list_equal(o, e)
 
 testcases = [
+    # iterables
     (('a','b','c'), ['a', 'b', 'c']),
     (['foo','bar','baz'], ['foo', 'bar', 'baz']),
+
+    # strings
     ('def', ['def']),
     ('favorite color', ['favorite color']),
+
+    # paths
     ('left/middle/right', ['left', 'middle', 'right']),
     ('backslashes\\also\\delimit', ['backslashes','also','delimit']),
     ('/home/tlevine/warehouse', ['home', 'tlevine', 'warehouse']),
     ('C:\\Users\\Documents', ['c', 'Users', 'Documents']),
+
+    # URLs
     ('http://thomaslevine.com/!?foo=bar', ['http', 'thomaslevine.com', '!?foo=bar']),
     (['http://thomaslevine.com', 'foo/bar/baz', 'a b'], ['http', 'thomaslevine.com', 'foo', 'bar', 'baz', 'a b']),
+
+    # . and .. are special
+    ('a/b/c/..', ['a','b','c','\\..']),
+    ('a/b/c/.', ['a','b','c','\\.']),
+    ('a\\b\\c\\..', ['a','b','c','\\..']),
+    ('a\\b\\c\\.', ['a','b','c','\\.']),
 ]
 
 def test_deterministic_order():
