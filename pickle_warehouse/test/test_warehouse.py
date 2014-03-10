@@ -76,6 +76,19 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.load(fp)
         self.assertEqual(observed, {'a':'z'})
 
+    def test_iter(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb'):
+            pass
+        with open(os.path.join(self.tmp, 'z'), 'wb'):
+            pass
+
+        observed = set(x for x in self.w)
+        expected = {'a/b/c/d', 'z'}
+
+        n.assert_set_equal(observed, expected)
+
     def test_keys(self):
         abc = os.path.join(self.tmp, 'a', 'b', 'c')
         os.makedirs(abc)
