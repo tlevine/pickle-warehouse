@@ -38,6 +38,9 @@ class Warehouse:
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
 
+    def __iter__(self):
+        return (k for k in self.keys())
+
     def __setitem__(self, index, obj):
         fn = self.filename(index)
         mkdir(fn)
