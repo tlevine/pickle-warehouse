@@ -15,6 +15,7 @@ def test_parse():
 
 def test_parse_int():
     n.assert_equal(parse_partial(3), '3')
+    n.assert_equal(parse_partial(123), '123')
 
 def test_parse_url():
     o = list(parse_partial('http://thomaslevine.com/!/about?a=b#lala'))
