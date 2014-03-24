@@ -29,7 +29,6 @@ def parse(index):
 _special = {'.': '\\.', '..': '\\..'}
 def replace_special(path):
     for item in path:
-        print(item)
         if item in _special:
             yield _special[item]
         else:
