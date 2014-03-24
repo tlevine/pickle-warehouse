@@ -29,6 +29,7 @@ def parse(index):
 _special = {'.': '\\.', '..': '\\..'}
 def replace_special(path):
     for item in path:
+        print(item)
         if item in _special:
             yield _special[item]
         else:
@@ -38,7 +39,7 @@ def parse_partial(item):
     if isinstance(item, basestring):
         func = parse_partial_text
     elif isinstance(item, int):
-        func = str
+        func = lambda x: [str(x)]
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
     else:
