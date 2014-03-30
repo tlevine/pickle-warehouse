@@ -77,3 +77,7 @@ When to use
 pickle-warehouse is for when you want a persistant store of Python objects.
 If you want an in-memory pickle store, look at
 _pickleDB: https://pythonhosted.org/pickleDB/.
+
+To do
+--------------------
+Add a write-once option
