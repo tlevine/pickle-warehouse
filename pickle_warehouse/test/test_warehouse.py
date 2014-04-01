@@ -48,6 +48,8 @@ class TestWarehouse(unittest.TestCase):
         os.mkdir(dirname)
         with open(filename, 'wb') as fp:
             pass
+        with open(filename+'2', 'wb') as fp:
+            pass
         del(self.w[['foo','bar']])
         self.assertFalse(os.path.exists(filename))
         self.assertFalse(os.path.exists(dirname))
