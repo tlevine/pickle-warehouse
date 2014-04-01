@@ -64,7 +64,10 @@ class Warehouse:
             raise KeyError(*e.args)
         else:
             for path in _reversed_directories(self.cachedir, os.path.split(path)[0]):
-                os.rmdir(path)
+                if os.listdir(path) == []:
+                    os.rmdir(path)
+                else:
+                    break
 
     def __contains__(self, index):
         return os.path.isfile(self.filename(index))
