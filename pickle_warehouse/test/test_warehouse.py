@@ -42,7 +42,20 @@ class TestWarehouse(unittest.TestCase):
         self.assertEqual(self.w['profession'], 'dada artist')
         self.assertEqual(self.w.get('hobby','business intelligence'), 'business intelligence')
 
-    def test_delitem(self):
+    def test_delitem1(self):
+        dirname = os.path.join(self.tmp, 'foo')
+        filename= os.path.join(dirname, 'bar')
+        os.mkdir(dirname)
+        with open(filename, 'wb') as fp:
+            pass
+        del(self.w[['foo','bar']])
+        self.assertFalse(os.path.exists(filename))
+        self.assertFalse(os.path.exists(dirname))
+
+        with self.assertRaises(KeyError):
+            del(self.w['not a file'])
+
+    def test_delitem2(self):
         dirname = os.path.join(self.tmp, 'foo')
         filename= os.path.join(dirname, 'bar')
         os.mkdir(dirname)
@@ -52,7 +65,7 @@ class TestWarehouse(unittest.TestCase):
             pass
         del(self.w[['foo','bar']])
         self.assertFalse(os.path.exists(filename))
-        self.assertFalse(os.path.exists(dirname))
+        self.assertTrue(os.path.exists(dirname))
 
         with self.assertRaises(KeyError):
             del(self.w['not a file'])
