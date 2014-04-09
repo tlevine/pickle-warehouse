@@ -37,6 +37,13 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
 
+    def test_setitem_dump(self):
+        content = 'pink'
+        def fake_dump(obj, fp):
+            self.assertEqual(obj, content)
+        self.w.dump = fake_dump
+        self.w[("Tom's", 'favorite color')] = 'pink'
+
     def test_getitem(self):
         with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
             observed = pickle.dump('dada artist', fp)
