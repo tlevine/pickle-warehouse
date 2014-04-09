@@ -16,6 +16,15 @@ class TestWarehouse(unittest.TestCase):
     def tearDown(self):
         rmtree(self.tmp)
 
+    def test_cachedir(self):
+        cachedir = self.tmp + 'aaa'
+        w = Warehouse(cachedir)
+        n.assert_equal(w.cachedir, cachedir)
+
+    def test_default_dump(self):
+        w = Warehouse(self.tmp)
+        n.assert_equal(w.dump, pickle.dump)
+
     def test_repr(self):
         self.assertEqual(repr(self.w), "Warehouse('%s')" % self.tmp)
         self.assertEqual(str(self.w), "Warehouse('%s')" % self.tmp)
