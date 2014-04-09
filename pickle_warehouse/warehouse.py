@@ -29,11 +29,18 @@ def mkdir(fn):
         pass
 
 class Warehouse:
+    '''
+    :param cachedir: cachedir
+    :param dump: A function of (obj, fp),
+        like pickle.dump, json.dump, or
+        lambda obj, fp: fp.write(obj)
+    '''
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir):
+    def __init__(self, cachedir, dump = pickle.dump):
         self.cachedir = cachedir
+        self.dump = dump
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -45,7 +52,7 @@ class Warehouse:
         fn = self.filename(index)
         mkdir(fn)
         with open(fn, 'wb') as fp:
-            pickle.dump(obj, fp)
+            self.dump(obj, fp)
 
     def __getitem__(self, index):
         try:
