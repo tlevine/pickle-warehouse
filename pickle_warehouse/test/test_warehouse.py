@@ -37,15 +37,23 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
 
-    def test_setitem_dump(self):
+    def test_serializer(self):
         content = 'pink'
         reflection = self
         class fake_serializer:
             @staticmethod
             def dump(obj, fp):
                 reflection.assertEqual(obj, content)
+            @staticmethod
+            def load(fp):
+                return 888
+
+        self.w['This is a real file'] = 'This content should be ignored.'
+
+        # Now we have the fake serializer.
         self.w.serializer = fake_serializer
         self.w[("Tom's", 'favorite color')] = 'pink'
+        self.assertEqual(self.w['This is a real file'], 888)
 
     def test_getitem(self):
         with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
