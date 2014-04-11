@@ -28,15 +28,6 @@ def mkdir(fn):
     except FileExistsError:
         pass
 
-class identity:
-    'Dump and load things that are already serialized.'
-    @staticmethod
-    def dump(obj, fp):
-        fp.write(obj)
-    @staticmethod
-    def load(fp):
-        return fp.read()
-
 class Warehouse:
     '''
     :param cachedir: cachedir
