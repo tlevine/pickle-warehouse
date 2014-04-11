@@ -17,5 +17,5 @@ setup(name='pickle-warehouse',
       ],
       tests_require = ['nose'],
       version=__version__,
-      license='BSD',
+      license='AGPL',
 )
