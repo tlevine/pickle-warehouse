@@ -42,7 +42,7 @@ class Warehouse:
     '''
     :param cachedir: cachedir
     :param serializer: A thing with dump and load attribute functions,
-        like pickle, json, yaml,
+        like pickle, json, yaml, dill,
         pickle_warehouse.base64, or pickle_warehouse.identity
     '''
     def __repr__(self):
