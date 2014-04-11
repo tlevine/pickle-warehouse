@@ -1,5 +1,6 @@
 import os, pickle
 
+from pickle_warehouse.serializers import base64, identity
 from pickle_warehouse.identifiers import parse as parse_identifier
 
 try:
@@ -32,7 +33,8 @@ class Warehouse:
     '''
     :param cachedir: cachedir
     :param serializer: A thing with dump and load attribute functions,
-        like pickle, json, or pickle_warehouse.identity
+        like pickle, json, yaml,
+        pickle_warehouse.base64, or pickle_warehouse.identity
     '''
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
