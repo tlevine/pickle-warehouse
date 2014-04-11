@@ -60,7 +60,7 @@ class Warehouse:
         fn = self.filename(index)
         mkdir(fn)
         with open(fn, 'wb') as fp:
-            self.dump(obj, fp)
+            self.serializer.dump(obj, fp)
 
     def __getitem__(self, index):
         try:
