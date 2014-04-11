@@ -39,9 +39,12 @@ class TestWarehouse(unittest.TestCase):
 
     def test_setitem_dump(self):
         content = 'pink'
-        def fake_dump(obj, fp):
-            self.assertEqual(obj, content)
-        self.w.serializer.dump = fake_dump
+        reflection = self
+        class fake_serializer:
+            @staticmethod
+            def dump(obj, fp):
+                reflection.assertEqual(obj, content)
+        self.w.serializer = fake_serializer
         self.w[("Tom's", 'favorite color')] = 'pink'
 
     def test_getitem(self):
