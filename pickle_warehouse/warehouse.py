@@ -38,9 +38,10 @@ class Warehouse:
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle):
+    def __init__(self, cachedir, serializer = pickle, mutable = True):
         self.cachedir = cachedir
         self.serializer = serializer
+        self.mutable = mutable
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -51,8 +52,11 @@ class Warehouse:
     def __setitem__(self, index, obj):
         fn = self.filename(index)
         mkdir(fn)
-        with open(fn, 'wb') as fp:
-            self.serializer.dump(obj, fp)
+        if (not self.mutable) and os.path.exists(fn):
+            raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
+        else:
+            with open(fn, 'wb') as fp:
+                self.serializer.dump(obj, fp)
 
     def __getitem__(self, index):
         try:
@@ -64,6 +68,9 @@ class Warehouse:
             return item
 
     def __delitem__(self, index):
+        if not self.mutable:
+            raise PermissionError('This warehouse is immutable, so you can\'t delete things.')
+
         path = self.filename(index)
         try:
             os.remove(path)
