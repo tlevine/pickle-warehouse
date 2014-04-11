@@ -28,19 +28,27 @@ def mkdir(fn):
     except FileExistsError:
         pass
 
+class identity:
+    'Dump and load things that are already serialized.'
+    @staticmethod
+    def dump(obj, fp):
+        fp.write(obj)
+    @staticmethod
+    def load(fp):
+        return fp.read()
+
 class Warehouse:
     '''
     :param cachedir: cachedir
-    :param dump: A function of (obj, fp),
-        like pickle.dump, json.dump, or
-        lambda obj, fp: fp.write(obj)
+    :param serializer: A thing with dump and load attribute functions,
+        like pickle, json, or pickle_warehouse.identity
     '''
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, dump = pickle.dump):
+    def __init__(self, cachedir, serializer = pickle):
         self.cachedir = cachedir
-        self.dump = dump
+        self.serializer = serializer
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -57,7 +65,7 @@ class Warehouse:
     def __getitem__(self, index):
         try:
             with open(self.filename(index), 'rb') as fp:
-                item = pickle.load(fp)
+                item = self.serializer.load(fp)
         except OpenError as e:
             raise KeyError(*e.args)
         else:

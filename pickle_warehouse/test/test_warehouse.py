@@ -23,7 +23,7 @@ class TestWarehouse(unittest.TestCase):
 
     def test_default_dump(self):
         w = Warehouse(self.tmp)
-        n.assert_equal(w.dump, pickle.dump)
+        n.assert_equal(w.serializer.dump, pickle.dump)
 
     def test_repr(self):
         self.assertEqual(repr(self.w), "Warehouse('%s')" % self.tmp)
@@ -41,7 +41,7 @@ class TestWarehouse(unittest.TestCase):
         content = 'pink'
         def fake_dump(obj, fp):
             self.assertEqual(obj, content)
-        self.w.dump = fake_dump
+        self.w.serializer.dump = fake_dump
         self.w[("Tom's", 'favorite color')] = 'pink'
 
     def test_getitem(self):
