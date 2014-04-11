@@ -8,6 +8,33 @@ import nose.tools as n
 
 from pickle_warehouse.warehouse import Warehouse
 
+class TestImmutableWarehouse(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.default = Warehouse(self.tmp)
+        self.mutable = Warehouse(self.tmp, mutable = True)
+        self.immutable = Warehouse(self.tmp, mutable = False)
+
+    def tearDown(self):
+        rmtree(self.tmp)
+
+    def test_setitem(self):
+        self.mutable['a'] = 3
+        self.default['a'] = 3
+        with self.assertRaises(PermissionError):
+            self.immutable['a'] = 3
+
+    def test_delitem(self):
+        self.mutable['a'] = 3
+        del(self.default['a'])
+
+        self.mutable['a'] = 3
+        del(self.mutable['a'])
+
+        self.mutable['a'] = 3
+        with self.assertRaises(PermissionError):
+            del(self.immutable['a'])
+
 class TestWarehouse(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
