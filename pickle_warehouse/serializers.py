@@ -21,3 +21,13 @@ class identity:
     @staticmethod
     def load(fp):
         return fp.read()
+
+class meta_xml:
+    def __init__(self, lxml_module):
+        self.module = lxml_module
+    @staticmethod
+    def dump(obj, fp):
+        fp.write(self.module.tostring(obj))
+    @staticmethod
+    def load(fp):
+        return self.module.fromstring(fp.read())

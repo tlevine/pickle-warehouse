@@ -1,6 +1,6 @@
 import os, pickle
 
-from pickle_warehouse.serializers import base64, identity
+from pickle_warehouse.serializers import base64, identity, meta_xml
 from pickle_warehouse.identifiers import parse as parse_identifier
 
 try:
@@ -21,6 +21,15 @@ except NameError:
     DeleteError = OSError
 else:
     DeleteError = FileNotFoundError
+
+try:
+    import lxml
+except ImportError:
+    pass
+else:
+    import lxml.html, lxml.etree
+    html = meta_xml(lxml.html)
+    xml = meta_xml(lxml.etree)
 
 def mkdir(fn):
     'Make a directory that will contain the file.'
