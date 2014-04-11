@@ -1,6 +1,5 @@
 import os, pickle
 
-from pickle_warehouse.serializers import base64, identity, meta_xml
 from pickle_warehouse.identifiers import parse as parse_identifier
 
 try:
@@ -22,15 +21,6 @@ except NameError:
 else:
     DeleteError = FileNotFoundError
 
-try:
-    import lxml
-except ImportError:
-    pass
-else:
-    import lxml.html, lxml.etree
-    html = meta_xml(lxml.html)
-    xml = meta_xml(lxml.etree)
-
 def mkdir(fn):
     'Make a directory that will contain the file.'
     try:
@@ -42,8 +32,8 @@ class Warehouse:
     '''
     :param cachedir: cachedir
     :param serializer: A thing with dump and load attribute functions,
-        like pickle, json, yaml, dill,
-        pickle_warehouse.base64, or pickle_warehouse.identity
+        like pickle, json, yaml, dill, bson, 
+        or anything in pickle_warehouse.serializers
     '''
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
