@@ -1,7 +1,7 @@
 import os, pickle
 
 from pickle_warehouse.identifiers import parse as parse_identifier
-from pickle_warehouse.fs import mktemp, mkdir
+from pickle_warehouse.fs import mktemp
 
 try:
     FileNotFoundError
@@ -23,6 +23,18 @@ except NameError:
 else:
     DeleteError = FileNotFoundError
 
+try:
+    FileExistsError
+except NameError:
+    FileExistsError = OSError
+
+def mkdir(fn):
+    'Make a directory that will contain the file.'
+    try:
+        os.makedirs(os.path.split(fn)[0])
+    except FileExistsError:
+        pass
+
 class Warehouse:
     '''
     :param cachedir: cachedir
@@ -39,6 +51,10 @@ class Warehouse:
         self.mutable = mutable
         if tempdir == None:
             self.tempdir = cachedir + '-tmp'
+        try:
+            os.makedirs(self.tempdir)
+        except FileExistsError:
+            pass
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
