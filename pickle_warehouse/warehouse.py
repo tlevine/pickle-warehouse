@@ -1,4 +1,5 @@
 import os, pickle
+from tempfile import mktemp
 
 from pickle_warehouse.identifiers import parse as parse_identifier
 
@@ -55,17 +56,25 @@ class Warehouse:
         if (not self.mutable) and os.path.exists(fn):
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
         else:
-            with open(fn, 'wb') as fp:
+            tmp = mktemp()
+            with open(tmp, 'wb') as fp:
                 self.serializer.dump(obj, fp)
+            os.rename(tmp, fn)
 
     def __getitem__(self, index):
+        fn = self.filename(index)
+        mtime_before = os.path.getmtime(fn)
         try:
-            with open(self.filename(index), 'rb') as fp:
+            with open(fn, 'rb') as fp:
                 item = self.serializer.load(fp)
         except OpenError as e:
             raise KeyError(*e.args)
         else:
-            return item
+            mtime_after = os.path.getmtime(fn)
+            if mtime_before == mtime_after:
+                return item
+            else:
+                raise EnvironmentError('File was edited during read: %s' % fn)
 
     def __delitem__(self, index):
         if not self.mutable:
