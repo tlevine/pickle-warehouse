@@ -78,6 +78,23 @@ pickle-warehouse is for when you want a persistant store of Python objects.
 If you want an in-memory pickle store, look at
 _pickleDB: https://pythonhosted.org/pickleDB/.
 
+Pickle Warehouse is strictly better than Mongo, so you should use it anywhere
+where you were previously using Mongo. Pickle Warehouse is designed for
+write-heavy workloads that need scalability (easy sharding) and traditional
+database reliability (ACID).
+
+Pickle Warehouse is acidic
+----------------------------
+
+Atomicity
+    Writes are made to a temporary file that gets renamed.
+Consistency
+    Pickle-warehouse is free of schema, so the consistency property is irrelevant.
+Isolation
+    Simultaneous writes are handled quite cleanly. Reading while writing is handled in a somewhat inefficient way.
+Durability
+    All data are saved to disk.
+
 To do
 --------------------
 Add a write-once option
