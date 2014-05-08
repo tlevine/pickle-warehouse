@@ -92,6 +92,6 @@ Atomicity
 Consistency
     I don't get this one, but I'm pretty sure I have it.
 Isolation
-    Simultaneous writes are handled quite cleanly. Reading while writing is handled in a somewhat inefficient way.
+    Simultaneous writes are handled quite cleanly. If reads occur during writes, an error gets thrown, and you can try again.
 Durability
     All data are saved to disk right away.
