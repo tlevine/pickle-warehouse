@@ -72,7 +72,7 @@ class Warehouse:
 
         try:
             mtime_before = os.path.getmtime(fn)
-        except OpenError:
+        except OSError:
             mtime_before = None
 
         try:
