@@ -85,6 +85,7 @@ database reliability (ACID).
 
 Pickle Warehouse is acidic
 ----------------------------
+Here's how it accomplishes that.
 
 Atomicity
     Writes are made to a temporary file that gets renamed.
@@ -93,8 +94,4 @@ Consistency
 Isolation
     Simultaneous writes are handled quite cleanly. Reading while writing is handled in a somewhat inefficient way.
 Durability
-    All data are saved to disk.
-
-To do
---------------------
-Add a write-once option
+    All data are saved to disk right away.
