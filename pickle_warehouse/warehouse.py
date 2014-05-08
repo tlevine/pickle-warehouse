@@ -1,12 +1,7 @@
 import os, pickle
-from tempfile import mktemp
 
 from pickle_warehouse.identifiers import parse as parse_identifier
-
-try:
-    FileExistsError
-except NameError:
-    FileExistsError = OSError
+from pickle_warehouse.fs import mktemp, mkdir
 
 try:
     FileNotFoundError
@@ -28,13 +23,6 @@ except NameError:
 else:
     DeleteError = FileNotFoundError
 
-def mkdir(fn):
-    'Make a directory that will contain the file.'
-    try:
-        os.makedirs(os.path.split(fn)[0])
-    except FileExistsError:
-        pass
-
 class Warehouse:
     '''
     :param cachedir: cachedir
@@ -45,10 +33,12 @@ class Warehouse:
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle, mutable = True):
+    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None):
         self.cachedir = cachedir
         self.serializer = serializer
         self.mutable = mutable
+        if tempdir == None:
+            self.tempdir = cachedir + '-tmp'
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -62,7 +52,7 @@ class Warehouse:
         if (not self.mutable) and os.path.exists(fn):
             raise PermissionError('This warehouse is immutable, and %s already exists.' % fn)
         else:
-            tmp = mktemp()
+            tmp = mktemp(self.tempdir)
             with open(tmp, 'wb') as fp:
                 self.serializer.dump(obj, fp)
             os.rename(tmp, fn)
