@@ -63,7 +63,12 @@ class Warehouse:
 
     def __getitem__(self, index):
         fn = self.filename(index)
-        mtime_before = os.path.getmtime(fn)
+
+        try:
+            mtime_before = os.path.getmtime(fn)
+        except OpenError:
+            mtime_before = None
+
         try:
             with open(fn, 'rb') as fp:
                 item = self.serializer.load(fp)
