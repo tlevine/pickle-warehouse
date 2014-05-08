@@ -2,6 +2,7 @@
 README
 setup.py
 pickle_warehouse/__init__.py
+pickle_warehouse/fs.py
 pickle_warehouse/identifiers.py
 pickle_warehouse/serializers.py
 pickle_warehouse/warehouse.py
