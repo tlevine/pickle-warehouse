@@ -16,6 +16,12 @@ else:
     OpenError = FileNotFoundError
 
 try:
+    PermissionError
+except NameError:
+    class PermissionError(EnvironmentError):
+        pass
+
+try:
     FileNotFoundError
 except NameError:
     DeleteError = OSError

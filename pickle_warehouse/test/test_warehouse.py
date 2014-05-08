@@ -7,6 +7,10 @@ from shutil import rmtree
 import nose.tools as n
 
 from pickle_warehouse.warehouse import Warehouse
+try:
+    from pickle_warehouse.warehouse import PermissionError
+except ImportError:
+    pass
 
 class TestImmutableWarehouse(unittest.TestCase):
     def setUp(self):
