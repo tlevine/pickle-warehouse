@@ -95,3 +95,11 @@ Isolation
     Simultaneous writes are handled quite cleanly. If reads occur during writes, an error gets thrown, and you can try again.
 Durability
     All data are saved to disk right away.
+
+Mongo replacement feature checklist
+----------------------------------------
+
+* Call fsync twice, just to make sure.
+* Schema validation on read and write (configurable), because who knows what you did yesterday or whether you change your mind later?
+* PID + random number (+ hash?) for random number generation
+* Inode exhaustion
