@@ -50,7 +50,7 @@ class Warehouse:
         self.serializer = serializer
         self.mutable = mutable
         if tempdir == None:
-            self.tempdir = os.path.join(cachedir, '\\.tmp')
+            self.tempdir = os.path.join(cachedir, '.tmp')
         try:
             os.makedirs(self.tempdir)
         except FileExistsError:

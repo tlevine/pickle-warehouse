@@ -26,7 +26,7 @@ def parse(index):
 
     return list(replace_special(path))
 
-_special = {'.': '\\.', '..': '\\..'}
+_special = {'.': '\\.', '..': '\\..', '.tmp': '\\.tmp'}
 def replace_special(path):
     for item in path:
         if item in _special:
