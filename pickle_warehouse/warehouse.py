@@ -55,7 +55,12 @@ class Warehouse:
             os.makedirs(self.tempdir)
         except FileExistsError:
             pass
-        self.memcache = {} if memcache else None
+        if not memcache:
+            self.memcache = None
+        else:
+            self.memcache = {}
+            for key, value in self._items():
+                self.memcache[key] = value
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -135,27 +140,25 @@ class Warehouse:
         return length
 
     def keys(self):
-        if self.memcache != None:
-            for key in self.memcache.keys():
-                yield key # grr python 2
-        else:
-            for dirpath, _, filenames in os.walk(self.cachedir):
-                for filename in filenames:
-                    yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+        return self._keys() if self.memcache ==None else self.memcache.keys()
+
+    def _keys(self):
+        for dirpath, _, filenames in os.walk(self.cachedir):
+            for filename in filenames:
+                yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
 
     def values(self):
         for key, value in self.items():
             yield value
 
     def items(self):
-        if self.memcache != None:
-            for item in self.memcache.items():
-                yield item # grr python 2
-        else:
-            for dirpath, _, filenames in os.walk(self.cachedir):
-                for filename in filenames:
-                    index = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
-                    yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
+        return self._items() if self.memcache ==None else self.memcache.items()
+
+    def _items(self):
+        for dirpath, _, filenames in os.walk(self.cachedir):
+            for filename in filenames:
+                index = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+                yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
 
     def update(self, d):
         for k, v in d.items():

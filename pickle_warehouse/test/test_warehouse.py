@@ -168,6 +168,10 @@ class TestWarehouse(unittest.TestCase):
             observed = pickle.load(fp)
         self.assertEqual(observed, {'a':'z'})
 
+        self.w.update([('tuple', (2,4,8))])
+        expected = {'tuple': (2,4,8),  'dictionary': {'a':'z'}}
+        self.assertDictEqual(dict(self.w), expected)
+
     def test_iter(self):
         abc = os.path.join(self.tmp, 'a', 'b', 'c')
         os.makedirs(abc)
