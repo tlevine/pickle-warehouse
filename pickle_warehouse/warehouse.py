@@ -145,7 +145,7 @@ class Warehouse:
         return length
 
     def keys(self):
-        return self._keys() if self.memcache ==None else self.memcache.keys()
+        return self._keys() if self.memcache ==None else map(os.path.relpath, self.memcache.keys())
 
     def _keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
@@ -157,7 +157,11 @@ class Warehouse:
             yield value
 
     def items(self):
-        return self._items() if self.memcache ==None else self.memcache.items()
+        if self.memcache == None:
+            return self._items()
+        else:
+            for key, value in self.memcache.items():
+                yield os.path.relpath(key), value
 
     def _items(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
