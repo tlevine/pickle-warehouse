@@ -84,9 +84,14 @@ class Warehouse:
     def __getitem__(self, index):
         fn = self.filename(index)
 
-        if self.memcache != None and fn in self.memcache:
+        if self.memcache == None:
+            return self._get_fn(fn)
+        else:
+            if fn not in self.memcache and index in self._keys():
+                self.memcache[fn] = self._get_fn(fn)
             return self.memcache[fn]
 
+    def _get_fn(self, fn):
         try:
             mtime_before = os.path.getmtime(fn)
         except OSError:
