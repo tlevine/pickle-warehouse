@@ -39,9 +39,10 @@ class TestImmutableWarehouse(unittest.TestCase):
         with self.assertRaises(PermissionError):
             del(self.immutable['a'])
 
-    def test_default(self):
+    def test_kwarg(self):
+        n.assert_true(self.default.mutable)
         n.assert_true(self.mutable.mutable)
-        n.assert_true(self.immutable.mutable)
+        n.assert_false(self.immutable.mutable)
 
 class TestMemcachedWarehouse(unittest.TestCase):
     def setUp(self):
