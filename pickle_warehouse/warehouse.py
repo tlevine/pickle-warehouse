@@ -109,7 +109,7 @@ class Warehouse:
         except DeleteError as e:
             raise KeyError(*e.args)
         else:
-            for fn in _reversed_directories(self.cachedir, os.fn.split(fn)[0]):
+            for fn in _reversed_directories(self.cachedir, os.path.split(fn)[0]):
                 if os.listdir(fn) == []:
                     os.rmdir(fn)
                 else:
