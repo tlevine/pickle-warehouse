@@ -39,6 +39,47 @@ class TestImmutableWarehouse(unittest.TestCase):
         with self.assertRaises(PermissionError):
             del(self.immutable['a'])
 
+    def test_default(self):
+        n.assert_true(self.mutable.mutable)
+        n.assert_true(self.immutable.mutable)
+
+class TestMemcachedWarehouse(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+        self.default = Warehouse(os.path.join(self.tmp, 'default'))
+        self.yescache = Warehouse(os.path.join(self.tmp, 'yes'), memcache = True)
+        self.nocache = Warehouse(os.path.join(self.tmp, 'no'), memcache = False)
+
+    def tearDown(self):
+        rmtree(self.tmp)
+
+    def test_serializer(self):
+        content = 'pink'
+        reflection = self
+        class fake_serializer:
+            @staticmethod
+            def dump(obj, fp):
+                reflection.assertEqual(obj, content)
+            @staticmethod
+            def load(fp):
+                return 888
+
+        self.nocache['This is a real file'] = 'This content should be ignored.'
+
+        # Now we have the fake serializer.
+        self.nocache.serializer = fake_serializer
+        self.nocache[("Tom's", 'favorite color')] = 'pink'
+        self.assertEqual(self.nocache['This is a real file'], 888)
+
+    def test_len(self):
+        abc = os.path.join(self.tmp, 'a', 'b', 'c')
+        os.makedirs(abc)
+        with open(os.path.join(abc, 'd'), 'wb'):
+            pass
+        with open(os.path.join(self.tmp, 'z'), 'wb'):
+            pass
+        self.assertEqual(len(self.nocache), 2)
+
 class TestWarehouse(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
@@ -67,24 +108,6 @@ class TestWarehouse(unittest.TestCase):
         with open(os.path.join(self.tmp, "Tom's", 'favorite color'), 'rb') as fp:
             observed = pickle.load(fp)
         self.assertEqual(observed, 'pink')
-
-    def test_serializer(self):
-        content = 'pink'
-        reflection = self
-        class fake_serializer:
-            @staticmethod
-            def dump(obj, fp):
-                reflection.assertEqual(obj, content)
-            @staticmethod
-            def load(fp):
-                return 888
-
-        self.w['This is a real file'] = 'This content should be ignored.'
-
-        # Now we have the fake serializer.
-        self.w.serializer = fake_serializer
-        self.w[("Tom's", 'favorite color')] = 'pink'
-        self.assertEqual(self.w['This is a real file'], 888)
 
     def test_getitem(self):
         with open(os.path.join(self.tmp, 'profession'), 'wb') as fp:
@@ -135,13 +158,9 @@ class TestWarehouse(unittest.TestCase):
         self.assertTrue('needle' in self.w)
 
     def test_len(self):
-        abc = os.path.join(self.tmp, 'a', 'b', 'c')
-        os.makedirs(abc)
-        with open(os.path.join(abc, 'd'), 'wb'):
-            pass
-        with open(os.path.join(self.tmp, 'z'), 'wb'):
-            pass
-        self.assertEqual(len(self.w), 2)
+        for i in range(100):
+            self.w[i] = i
+        n.assert_equal(len(self.w), 100)
 
     def test_update(self):
         self.w.update({'dictionary': {'a':'z'}})
