@@ -170,7 +170,9 @@ class TestWarehouse(unittest.TestCase):
 
         self.w.update([('tuple', (2,4,8))])
         expected = {'tuple': (2,4,8),  'dictionary': {'a':'z'}}
-        self.assertDictEqual(dict(self.w), expected)
+        self.assertEqual(len(self.w), len(expected))
+        for key in expected.keys():
+            self.assertEqual(self.w[key], expected[key])
 
     def test_iter(self):
         abc = os.path.join(self.tmp, 'a', 'b', 'c')

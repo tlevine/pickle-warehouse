@@ -161,7 +161,8 @@ class Warehouse:
                 yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
 
     def update(self, d):
-        for k, v in d.items():
+        generator = d.items() if hasattr(d, 'items') else d
+        for k, v in generator:
             self[k] = v
 
     def get(self, index, default = None):
