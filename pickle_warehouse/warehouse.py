@@ -132,6 +132,8 @@ class Warehouse:
         if self.memcache == None:
             return os.path.isfile(fn)
         else:
+            if fn not in self.memcache and os.path.isfile(fn):
+                self.memcache[fn] = self._get_fn(fn)
             return fn in self.memcache
 
     def __len__(self):
