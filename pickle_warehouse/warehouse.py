@@ -137,8 +137,8 @@ class Warehouse:
             return fn in self.memcache
 
     def __len__(self):
-        if self.memcache != None:
-            return len(self.memcache)
+#       if self.memcache != None:
+#           return len(self.memcache)
 
         length = 0
         for dirpath, _, filenames in os.walk(self.cachedir):
