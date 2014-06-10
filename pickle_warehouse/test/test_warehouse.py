@@ -82,6 +82,13 @@ class TestMemcachedWarehouse(unittest.TestCase):
         self.assertEqual(len(self.nocache), 2)
         self.assertEqual(len(self.yescache), 0)
 
+    def test_empty(self):
+        for key in [None, '', (None, '')]:
+            with n.assert_raises(KeyError):
+                self.nocache[key] = 8
+            with n.assert_raises(KeyError):
+                self.yescache[key] = 8
+
 class TestWarehouse(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()

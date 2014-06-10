@@ -37,14 +37,6 @@ def test_parse_none():
     n.assert_equal(parse_partial(None), [''])
     n.assert_equal(parse(None), [])
 
-def test_empty():
-    with n.assert_raises(ValueError):
-        parse(None)
-    with n.assert_raises(ValueError):
-        parse('')
-    with n.assert_raises(ValueError):
-        parse(('',None))
-
 testcases = [
     # iterables
     (('a','b','c'), ['a', 'b', 'c']),

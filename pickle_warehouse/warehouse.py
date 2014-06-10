@@ -63,7 +63,11 @@ class Warehouse:
                 self.memcache[key] = value
 
     def filename(self, index):
-        return os.path.join(self.cachedir, *parse_identifier(index))
+        subpath = parse_identifier(index)
+        if subpath == []:
+            raise KeyError('You specified an empty key.')
+        else:
+            return os.path.join(self.cachedir, *subpath)
 
     def __iter__(self):
         return (k for k in self.keys())
