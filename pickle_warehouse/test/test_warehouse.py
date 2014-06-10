@@ -77,8 +77,8 @@ class TestMemcachedWarehouse(unittest.TestCase):
         os.makedirs(abc)
         with open(os.path.join(abc, 'd'), 'wb'):
             pass
-        with open(os.path.join(self.tmp, 'z'), 'wb'):
-            pass
+        with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
+            fp.write('')
         self.assertEqual(len(self.nocache), 2)
 
 class TestWarehouse(unittest.TestCase):
