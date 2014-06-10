@@ -64,6 +64,10 @@ testcases = [
 
     # Nones
     ((None, 'abc'), ['abc']),
+
+    # Starting with hash
+    ('#9 BAC GIANG CONSTRUCTION JOINT STOCK COMPANY', '#9 BAC GIANG CONSTRUCTION JOINT STOCK COMPANY'),
+
 ]
 
 def test_deterministic_order():
