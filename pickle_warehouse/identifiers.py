@@ -67,6 +67,9 @@ def parse_partial_url(item):
         for y in filter(None, url.path.split('/')):
             path.append(y)
 
+    if len(path) == 0:
+        path = ['']
+
     if url.query:
         path[-1] += '?' + url.query
 
