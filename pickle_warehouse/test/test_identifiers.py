@@ -35,7 +35,7 @@ def test_parse_datetime():
 
 def test_parse_none():
     n.assert_equal(parse_partial(None), [''])
-    n.assert_equal(parse(None), [''])
+    n.assert_equal(parse(None), [])
 
 def test_empty():
     with n.assert_raises(ValueError):

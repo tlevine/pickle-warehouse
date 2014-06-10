@@ -17,14 +17,14 @@ def parse(index):
     if not safe_type(index):
         warnings.warn(UserWarning('You should pass an object with a deterministic order. (probably not a %s)' % type(index).__name__))
 
-    for theclass in [basestring, datetime.date, datetime.datetime, int]:
+    for theclass in [basestring, datetime.date, datetime.datetime, int, type(None)]:
         if isinstance(index, theclass):
             path = parse_partial(index)
             break
     else:
         path = itertools.chain(*map(parse_partial, index))
 
-    return list(replace_special(path))
+    return list(filter(lambda x: x!= '', replace_special(path)))
 
 _special = {'.': '\\.', '..': '\\..', '.tmp': '\\.tmp'}
 def replace_special(path):
@@ -41,6 +41,8 @@ def parse_partial(item):
         func = lambda x: [str(x)]
     elif isinstance(item, datetime.date) or isinstance(item, datetime.datetime):
         func = parse_partial_date
+    elif item == None:
+        func = lambda _: ['']
     else:
         raise ValueError('item must be string, datetime.date, datetime.datetime or int')
     return func(item)
