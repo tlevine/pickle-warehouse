@@ -1,4 +1,5 @@
 import os, pickle
+from collections import defaultdict
 
 from pickle_warehouse.identifiers import parse as parse_identifier
 from pickle_warehouse.fs import mktemp
@@ -58,9 +59,12 @@ class Warehouse:
         if not memcache:
             self.memcache = None
         else:
-            self.memcache = {}
-            for key, value in self._items():
+            starters = set(self._keys())
+            def lazyload(key):
+                if key in starters:
+                    return self._get_fn(fn)
                 self.memcache[key] = value
+            self.memcache = defaultdict(lazyload)
 
     def filename(self, index):
         return os.path.join(self.cachedir, *parse_identifier(index))
@@ -159,17 +163,8 @@ class Warehouse:
             yield value
 
     def items(self):
-        if self.memcache == None:
-            return self._items()
-        else:
-            for key, value in self.memcache.items():
-                yield os.path.relpath(key), value
-
-    def _items(self):
-        for dirpath, _, filenames in os.walk(self.cachedir):
-            for filename in filenames:
-                index = os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
-                yield index, self[os.path.relpath(os.path.join(dirpath, filename), self.cachedir)]
+        for key in self.keys():
+            yield key, self[key]
 
     def update(self, d):
         generator = d.items() if hasattr(d, 'items') else d
