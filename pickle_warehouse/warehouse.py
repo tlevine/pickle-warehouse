@@ -45,7 +45,7 @@ class Warehouse:
     def __repr__(self):
         return 'Warehouse(%s)' % repr(self.cachedir)
 
-    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None, memcache = True):
+    def __init__(self, cachedir, serializer = pickle, mutable = True, tempdir = None, memcache = False):
         self.cachedir = cachedir
         self.serializer = serializer
         self.mutable = mutable
@@ -147,7 +147,7 @@ class Warehouse:
         return length
 
     def keys(self):
-        return self._keys() if self.memcache ==None else map(os.path.relpath, self.memcache.keys())
+        return self._keys() if self.memcache == None else map(os.path.relpath, self.memcache.keys())
 
     def _keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
