@@ -33,6 +33,18 @@ def test_parse_datetime():
     e = ['2014', '02', '05']
     n.assert_list_equal(o, e)
 
+def test_parse_none():
+    n.assert_equal(parse_partial(None), [''])
+    n.assert_equal(parse(None), [''])
+
+def test_empty():
+    with n.assert_raises(ValueError):
+        parse(None)
+    with n.assert_raises(ValueError):
+        parse('')
+    with n.assert_raises(ValueError):
+        parse(('',None))
+
 testcases = [
     # iterables
     (('a','b','c'), ['a', 'b', 'c']),
@@ -57,6 +69,9 @@ testcases = [
     ('a/b/c/.', ['a','b','c','\\.']),
     ('a\\b\\c\\..', ['a','b','c','\\..']),
     ('a\\b\\c\\.', ['a','b','c','\\.']),
+
+    # Nones
+    ((None, 'abc'), ['abc']),
 ]
 
 def test_deterministic_order():
