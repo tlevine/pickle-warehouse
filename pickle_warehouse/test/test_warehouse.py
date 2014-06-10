@@ -47,9 +47,9 @@ class TestImmutableWarehouse(unittest.TestCase):
 class TestMemcachedWarehouse(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.mkdtemp()
-        self.default = Warehouse(os.path.join(self.tmp, 'default'))
-        self.yescache = Warehouse(os.path.join(self.tmp, 'yes'), memcache = True)
-        self.nocache = Warehouse(os.path.join(self.tmp, 'no'), memcache = False)
+        self.default = Warehouse(os.path.join(self.tmp))
+        self.yescache = Warehouse(os.path.join(self.tmp), memcache = True)
+        self.nocache = Warehouse(os.path.join(self.tmp), memcache = False)
 
     def tearDown(self):
         rmtree(self.tmp)
@@ -78,8 +78,9 @@ class TestMemcachedWarehouse(unittest.TestCase):
         with open(os.path.join(abc, 'd'), 'wb'):
             pass
         with open(os.path.join(self.tmp, 'z'), 'wb') as fp:
-            fp.write('')
+            pass
         self.assertEqual(len(self.nocache), 2)
+        self.assertEqual(len(self.yescache), 0)
 
 class TestWarehouse(unittest.TestCase):
     def setUp(self):
