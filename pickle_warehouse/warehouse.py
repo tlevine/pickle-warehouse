@@ -155,8 +155,9 @@ class Warehouse:
 
     def _keys(self):
         for dirpath, _, filenames in os.walk(self.cachedir):
-            for filename in filenames:
-                yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
+            if dirpath != os.path.join(self.cachedir, '.tmp'):
+                for filename in filenames:
+                    yield os.path.relpath(os.path.join(dirpath, filename), self.cachedir)
 
     def values(self):
         for key, value in self.items():
