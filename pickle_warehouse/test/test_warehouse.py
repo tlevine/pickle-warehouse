@@ -203,6 +203,8 @@ class TestWarehouse(unittest.TestCase):
             pass
         with open(os.path.join(self.tmp, 'z'), 'wb'):
             pass
+        with open(os.path.join(self.tmp, '.tmp', 'lalala'), 'wb'):
+            pass
 
         observed = set(self.w.keys())
         expected = {'a/b/c/d', 'z'}
